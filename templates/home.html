@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Record System - Frontend Example</title>
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    
+    .container-narrow { max-width: 900px; margin: 30px auto; }
+    .header-bar { background:#2d6cdf; color:white; border-radius:6px; padding:10px 15px; text-align:center; font-weight:600px; font-size: 39px; }
+  </style>
+</head>
+<body>
+  <div class="container-narrow">
+    <!-- HEADER -->
+    <h1 class="h3 text-success mb-3">Part 1: Frontend Templates with Bootstrap</h1>
+    <div class="header-bar fs-8" >Student Record System</div>
+
+    <!-- CARD: Search + Table -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title">Student Records</h4>
+
+        <!-- SEARCH (tani waa qaybta "gaar u jar" ee aad codsatay) -->
+        <div class="mb-3">
+          <input id="searchBox" type="search" class="form-control" placeholder="Search (filter by ID, name, or email)">
+        </div>
+
+
+
+        <!-- TABLE -->
+        <div class="table-responsive">
+          <table id="studentsTable" class="table table-striped align-middle">
+            <thead>
+              <tr>
+                <th style="width:5%;">ID</th>
+                <th style="width:30%;">Name</th>
+                <th style="width:45%;">Email</th>
+                <th style="width:20%;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-id="1">
+                <td>1</td>
+                <td>Xusen Ciise</td>
+                <td>Xusen.ciise@example.com</td>
+                <td>
+                  <button class="btn btn-sm btn-primary me-2" id="Edit">Edit</button>
+
+                  <!-- DELETE BUTTON with dropdown (hoos u dag) -->
+                  <div class="btn-group">
+                    <button id="del 1" type="button" class="btn btn-sm btn-danger "  aria-expanded="false">
+                                         Delete
+                    </button>
+                
+                  </div>
+                </td>
+              </tr>
+
+              <tr data-id="3">
+                <td>3</td>
+                <td>Mohamed Abdirahman</td>
+                <td>Mohamedepdirahman@gmail.com</td>
+                <td>
+                  <button class="btn btn-sm btn-primary me-2" id="Edit 1">Edit</button>
+                  <div class="btn-group">
+                    <button id="del 2" type="button" class="btn btn-sm btn-danger"  aria-expanded="false">
+                      Delete
+                    </button>
+            
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ADD BUTTON -->
+        <div class="text-center mt-3">
+          <button id="addStudent" class="btn btn-primary">Add Student</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- INLINE JS: Search filter + Delete handler -->
+  <script>
+    // SEARCH FILTER: "gaar u jar" - markaas waxaa la sifeynayaa rows-ka jadwalka
+    (function(){
+      const searchBox = document.getElementById('searchBox');
+      const table = document.getElementById('studentsTable').getElementsByTagName('tbody')[0];
+
+      searchBox.addEventListener('input', function(){
+        const q = this.value.trim().toLowerCase();
+        // loop rows
+        Array.from(table.rows).forEach(row => {
+          const id = row.cells[0].textContent.toLowerCase();
+          const name = row.cells[1].textContent.toLowerCase();
+          const email = row.cells[2].textContent.toLowerCase();
+          // show row if any cell contains query
+          const match = (!q) || id.includes(q) || name.includes(q) || email.includes(q);
+          row.style.display = match ? '' : 'none';
+        });
+      });
+    })();
+
+    // DELETE HANDLER: marka user-gu riixo "Yes, delete" ka
+    (function(){
+      // konnesshinka elements-ka confirm-delete
+      const confirmLinks = document.querySelectorAll('.confirm-delete');
+      confirmLinks.forEach(link => {
+        link.addEventListener('click', function(e){
+          e.preventDefault();
+          const id = this.getAttribute('data-target-row');
+          // meesha row ku yaal
+          const row = document.querySelector('tr[data-id="'+id+'"]');
+          if(!row) return;
+          // Halkan waxaad ku dari kartaa ajax call si aad u tirtirto server-ka.
+          // Tusaale ahaan: fetch('/delete-student/'+id, { method:'DELETE' }) ...
+          // Haddana frontend kaliya: ka saar row DOM
+          row.remove();
+        });
+      });
+
+      // optional: cancel link close dropdown - default bootstrap behavior handles it
+      const cancelLinks = document.querySelectorAll('.cancel-delete');
+      cancelLinks.forEach(a => {
+        a.addEventListener('click', function(e){
+          e.preventDefault();
+          // just close dropdown by focusing somewhere else
+          document.activeElement.blur();
+        });
+      });
+    })();
+
+    // ADD STUDENT button (demo frontend only)
+    document.getElementById('addStudent').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+        document.getElementById('Edit').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+        document.getElementById('Edit 1').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+         document.getElementById('del 1').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+         document.getElementById('del 2').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+  </script>
+</body>
+</html>
